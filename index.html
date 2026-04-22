@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BookVerse - Sua biblioteca online pessoal. Adicione livros, avalie, recomende e descubra novas leituras.">
+    <title>BookVerse — Sua Biblioteca Online</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Animated Background Particles -->
+    <div class="bg-particles" id="bgParticles"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" id="logoHome">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">Book<span class="logo-accent">Verse</span></span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="nav-link active" data-page="home" id="navHome">
+                    <span class="nav-icon">🏠</span> Início
+                </a></li>
+                <li><a href="#" class="nav-link" data-page="library" id="navLibrary">
+                    <span class="nav-icon">📖</span> Minha Biblioteca
+                </a></li>
+                <li><a href="#" class="nav-link" data-page="add" id="navAdd">
+                    <span class="nav-icon">➕</span> Adicionar Livro
+                </a></li>
+                <li><a href="#" class="nav-link" data-page="recommendations" id="navRecommendations">
+                    <span class="nav-icon">💡</span> Recomendações
+                </a></li>
+                <li><a href="#" class="nav-link" data-page="store" id="navStore">
+                    <span class="nav-icon">🛒</span> Loja
+                </a></li>
+                <li><a href="#" class="nav-link" data-page="mydigital" id="navMyDigital">
+                    <span class="nav-icon">📱</span> Meus Digitais
+                </a></li>
+                <li><a href="#" class="nav-link" data-page="stats" id="navStats">
+                    <span class="nav-icon">📊</span> Estatísticas
+                </a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==================== HOME PAGE ==================== -->
+    <section class="page active" id="page-home">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="hero-line">Descubra seu próximo</span>
+                    <span class="hero-line accent">grande livro</span>
+                </h1>
+                <p class="hero-subtitle">Organize sua coleção, avalie suas leituras e descubra recomendações personalizadas. Sua jornada literária começa aqui.</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-glow" id="heroExplore">
+                        <span>Explorar Biblioteca</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                    <button class="btn btn-secondary" id="heroWhatToRead">
+                        <span>🎲 O que ler agora?</span>
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-number" id="statBooks">0</span>
+                        <span class="hero-stat-label">Livros</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-number" id="statRead">0</span>
+                        <span class="hero-stat-label">Lidos</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-number" id="statRecommendations">0</span>
+                        <span class="hero-stat-label">Recomendações</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-books">
+                    <div class="floating-book fb-1">📕</div>
+                    <div class="floating-book fb-2">📗</div>
+                    <div class="floating-book fb-3">📘</div>
+                    <div class="floating-book fb-4">📙</div>
+                    <div class="floating-book fb-5">📓</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What to Read Section -->
+        <div class="section" id="whatToReadSection" style="display:none;">
+            <div class="section-header">
+                <h2 class="section-title">🎲 O que ler agora?</h2>
+                <p class="section-subtitle">Baseado na sua biblioteca, aqui está uma sugestão para você!</p>
+            </div>
+            <div class="recommendation-card-large" id="whatToReadCard">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+
+        <!-- Recently Added -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">📚 Adicionados Recentemente</h2>
+                <button class="btn btn-text" id="seeAllRecent">Ver todos →</button>
+            </div>
+            <div class="books-grid" id="recentBooks">
+                <div class="empty-state" id="emptyRecent">
+                    <div class="empty-icon">📚</div>
+                    <h3>Sua biblioteca está vazia</h3>
+                    <p>Adicione seu primeiro livro para começar!</p>
+                    <button class="btn btn-primary" id="addFirstBook">Adicionar Livro</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Rated -->
+        <div class="section" id="topRatedSection" style="display:none;">
+            <div class="section-header">
+                <h2 class="section-title">⭐ Mais Bem Avaliados</h2>
+            </div>
+            <div class="books-grid" id="topRatedBooks"></div>
+        </div>
+    </section>
+
+    <!-- ==================== LIBRARY PAGE ==================== -->
+    <section class="page" id="page-library">
+        <div class="page-header">
+            <h1 class="page-title">📖 Minha Biblioteca</h1>
+            <p class="page-subtitle">Gerencie todos os seus livros em um só lugar</p>
+        </div>
+
+        <!-- Filters & Search -->
+        <div class="library-controls">
+            <div class="search-box">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar por título, autor ou gênero...">
+            </div>
+            <div class="filter-chips">
+                <button class="chip active" data-filter="all" id="filterAll">Todos</button>
+                <button class="chip" data-filter="reading" id="filterReading">📖 Lendo</button>
+                <button class="chip" data-filter="read" id="filterRead">✅ Lidos</button>
+                <button class="chip" data-filter="want" id="filterWant">📌 Quero Ler</button>
+                <button class="chip" data-filter="recommended" id="filterRecommended">💡 Recomendados</button>
+            </div>
+            <div class="sort-controls">
+                <label for="sortSelect">Ordenar por:</label>
+                <select id="sortSelect" class="sort-select">
+                    <option value="recent">Mais Recente</option>
+                    <option value="title">Título (A-Z)</option>
+                    <option value="author">Autor (A-Z)</option>
+                    <option value="rating">Melhor Avaliação</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="books-grid" id="libraryBooks">
+            <div class="empty-state" id="emptyLibrary">
+                <div class="empty-icon">📚</div>
+                <h3>Nenhum livro encontrado</h3>
+                <p>Adicione livros à sua biblioteca para vê-los aqui.</p>
+                <button class="btn btn-primary" id="addBookFromLibrary">Adicionar Livro</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ADD BOOK PAGE ==================== -->
+    <section class="page" id="page-add">
+        <div class="page-header">
+            <h1 class="page-title">➕ Adicionar Novo Livro</h1>
+            <p class="page-subtitle">Preencha as informações do livro para adicioná-lo à sua biblioteca</p>
+        </div>
+
+        <form class="book-form" id="bookForm">
+            <div class="form-grid">
+                <!-- Cover Preview -->
+                <div class="form-cover-section">
+                    <div class="cover-preview" id="coverPreview">
+                        <div class="cover-placeholder">
+                            <span class="cover-placeholder-icon">📖</span>
+                            <span>Capa do Livro</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookCover" class="form-label">URL da Capa (opcional)</label>
+                        <input type="url" id="bookCover" class="form-input" placeholder="https://exemplo.com/capa.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Cor da Capa</label>
+                        <div class="color-picker" id="colorPicker">
+                            <button type="button" class="color-swatch active" data-color="#6C5CE7" style="background:#6C5CE7"></button>
+                            <button type="button" class="color-swatch" data-color="#E17055" style="background:#E17055"></button>
+                            <button type="button" class="color-swatch" data-color="#00B894" style="background:#00B894"></button>
+                            <button type="button" class="color-swatch" data-color="#0984E3" style="background:#0984E3"></button>
+                            <button type="button" class="color-swatch" data-color="#FDCB6E" style="background:#FDCB6E"></button>
+                            <button type="button" class="color-swatch" data-color="#E84393" style="background:#E84393"></button>
+                            <button type="button" class="color-swatch" data-color="#2D3436" style="background:#2D3436"></button>
+                            <button type="button" class="color-swatch" data-color="#D63031" style="background:#D63031"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book Details -->
+                <div class="form-details-section">
+                    <div class="form-group">
+                        <label for="bookTitle" class="form-label">Título do Livro *</label>
+                        <input type="text" id="bookTitle" class="form-input" placeholder="Ex: Dom Casmurro" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bookAuthor" class="form-label">Autor(a) *</label>
+                        <input type="text" id="bookAuthor" class="form-input" placeholder="Ex: Machado de Assis" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookGenre" class="form-label">Gênero *</label>
+                            <select id="bookGenre" class="form-input" required>
+                                <option value="">Selecione...</option>
+                                <option value="Ficção">Ficção</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Fantasia">Fantasia</option>
+                                <option value="Ficção Científica">Ficção Científica</option>
+                                <option value="Terror">Terror</option>
+                                <option value="Suspense">Suspense</option>
+                                <option value="Aventura">Aventura</option>
+                                <option value="Biografia">Biografia</option>
+                                <option value="Autoajuda">Autoajuda</option>
+                                <option value="Poesia">Poesia</option>
+                                <option value="Drama">Drama</option>
+                                <option value="História">História</option>
+                                <option value="Ciência">Ciência</option>
+                                <option value="Filosofia">Filosofia</option>
+                                <option value="Religião">Religião</option>
+                                <option value="HQ/Mangá">HQ/Mangá</option>
+                                <option value="Infantil">Infantil</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookPages" class="form-label">Nº de Páginas</label>
+                            <input type="number" id="bookPages" class="form-input" placeholder="Ex: 256" min="1">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookYear" class="form-label">Ano de Publicação</label>
+                            <input type="number" id="bookYear" class="form-input" placeholder="Ex: 1899" min="1" max="2030">
+                        </div>
+                        <div class="form-group">
+                            <label for="bookStatus" class="form-label">Status de Leitura</label>
+                            <select id="bookStatus" class="form-input">
+                                <option value="want">📌 Quero Ler</option>
+                                <option value="reading">📖 Lendo</option>
+                                <option value="read">✅ Já Li</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Sua Avaliação</label>
+                        <div class="star-rating-input" id="starRatingInput">
+                            <button type="button" class="star-btn" data-star="1">★</button>
+                            <button type="button" class="star-btn" data-star="2">★</button>
+                            <button type="button" class="star-btn" data-star="3">★</button>
+                            <button type="button" class="star-btn" data-star="4">★</button>
+                            <button type="button" class="star-btn" data-star="5">★</button>
+                            <span class="rating-text" id="ratingText">Sem avaliação</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bookDescription" class="form-label">Descrição / Sinopse</label>
+                        <textarea id="bookDescription" class="form-input form-textarea" placeholder="Escreva uma breve descrição ou sinopse do livro..." rows="4"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bookNotes" class="form-label">Suas Anotações Pessoais</label>
+                        <textarea id="bookNotes" class="form-input form-textarea" placeholder="Suas impressões, trechos favoritos, reflexões..." rows="3"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-glow btn-large" id="submitBook">
+                            <span>📚 Adicionar à Biblioteca</span>
+                        </button>
+                        <button type="reset" class="btn btn-secondary" id="resetForm">Limpar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <!-- ==================== RECOMMENDATIONS PAGE ==================== -->
+    <section class="page" id="page-recommendations">
+        <div class="page-header">
+            <h1 class="page-title">💡 Recomendações</h1>
+            <p class="page-subtitle">Recomende livros e veja o que outros leitores estão sugerindo</p>
+        </div>
+
+        <!-- What to Read Widget -->
+        <div class="what-to-read-widget">
+            <div class="widget-content">
+                <div class="widget-icon">🎲</div>
+                <div class="widget-text">
+                    <h3>O que ler agora?</h3>
+                    <p>Deixe o destino escolher sua próxima leitura!</p>
+                </div>
+                <button class="btn btn-primary btn-glow" id="whatToReadBtn">
+                    <span>Sortear Livro</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Recommendation Result -->
+        <div class="recommendation-result" id="recommendationResult" style="display:none;">
+            <!-- Filled by JS -->
+        </div>
+
+        <!-- Recommend a Book Form -->
+        <div class="recommend-form-section">
+            <h2 class="section-title">📣 Recomendar um Livro</h2>
+            <p class="section-subtitle">Compartilhe suas leituras favoritas com a comunidade</p>
+            <form class="recommend-form" id="recommendForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="recBookSelect" class="form-label">Escolha um livro da sua biblioteca</label>
+                        <select id="recBookSelect" class="form-input">
+                            <option value="">Selecione um livro...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="recMessage" class="form-label">Por que você recomenda este livro?</label>
+                    <textarea id="recMessage" class="form-input form-textarea" placeholder="Conte por que este livro vale a pena ser lido..." rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="recFrom" class="form-label">Seu nome (opcional)</label>
+                    <input type="text" id="recFrom" class="form-input" placeholder="Ex: Leitor Anônimo">
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitRecommendation">
+                    <span>💡 Publicar Recomendação</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Recommendations Feed -->
+        <div class="section">
+            <h2 class="section-title">📋 Feed de Recomendações</h2>
+            <div class="recommendations-feed" id="recommendationsFeed">
+                <div class="empty-state" id="emptyRecommendations">
+                    <div class="empty-icon">💡</div>
+                    <h3>Nenhuma recomendação ainda</h3>
+                    <p>Seja o primeiro a recomendar um livro!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== STATS PAGE ==================== -->
+    <section class="page" id="page-stats">
+        <div class="page-header">
+            <h1 class="page-title">📊 Estatísticas</h1>
+            <p class="page-subtitle">Acompanhe seu progresso de leitura</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card stat-total">
+                <div class="stat-card-icon">📚</div>
+                <div class="stat-card-value" id="totalBooksCount">0</div>
+                <div class="stat-card-label">Total de Livros</div>
+            </div>
+            <div class="stat-card stat-read">
+                <div class="stat-card-icon">✅</div>
+                <div class="stat-card-value" id="readBooksCount">0</div>
+                <div class="stat-card-label">Livros Lidos</div>
+            </div>
+            <div class="stat-card stat-reading">
+                <div class="stat-card-icon">📖</div>
+                <div class="stat-card-value" id="readingBooksCount">0</div>
+                <div class="stat-card-label">Lendo Agora</div>
+            </div>
+            <div class="stat-card stat-want">
+                <div class="stat-card-icon">📌</div>
+                <div class="stat-card-value" id="wantBooksCount">0</div>
+                <div class="stat-card-label">Quero Ler</div>
+            </div>
+            <div class="stat-card stat-pages">
+                <div class="stat-card-icon">📄</div>
+                <div class="stat-card-value" id="totalPagesCount">0</div>
+                <div class="stat-card-label">Páginas Totais</div>
+            </div>
+            <div class="stat-card stat-avg">
+                <div class="stat-card-icon">⭐</div>
+                <div class="stat-card-value" id="avgRatingValue">0.0</div>
+                <div class="stat-card-label">Avaliação Média</div>
+            </div>
+        </div>
+
+        <!-- Genre Distribution -->
+        <div class="section">
+            <h2 class="section-title">📊 Gêneros na Biblioteca</h2>
+            <div class="genre-chart" id="genreChart">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+
+        <!-- Reading Progress -->
+        <div class="section">
+            <h2 class="section-title">📈 Progresso de Leitura</h2>
+            <div class="progress-bar-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="readingProgress" style="width:0%"></div>
+                </div>
+                <span class="progress-text" id="progressText">0% dos livros lidos</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== STORE PAGE ==================== -->
+    <section class="page" id="page-store">
+        <div class="page-header">
+            <h1 class="page-title">🛒 Loja de Livros</h1>
+            <p class="page-subtitle">Compre ou alugue livros digitais e comece a ler agora mesmo</p>
+        </div>
+
+        <!-- Store Search -->
+        <div class="library-controls">
+            <div class="search-box">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" class="search-input" id="storeSearch" placeholder="Buscar livros na loja...">
+            </div>
+            <div class="filter-chips">
+                <button class="chip active" data-store-filter="all" id="storeFilterAll">Todos</button>
+                <button class="chip" data-store-filter="Romance" id="storeFilterRomance">Romance</button>
+                <button class="chip" data-store-filter="Fantasia" id="storeFilterFantasia">Fantasia</button>
+                <button class="chip" data-store-filter="Ficção Científica" id="storeFilterScifi">Ficção Científica</button>
+                <button class="chip" data-store-filter="Aventura" id="storeFilterAventura">Aventura</button>
+                <button class="chip" data-store-filter="Terror" id="storeFilterTerror">Terror</button>
+                <button class="chip" data-store-filter="HQ/Mangá" id="storeFilterManga">🎌 HQ/Mangá</button>
+            </div>
+        </div>
+
+        <!-- Store Balance -->
+        <div class="store-balance">
+            <div class="balance-info">
+                <span class="balance-icon">💰</span>
+                <span>Saldo: <strong>R$ <span id="userBalance">150.00</span></strong></span>
+            </div>
+            <button class="btn btn-secondary" id="addBalanceBtn">+ Adicionar Saldo</button>
+        </div>
+
+        <!-- Store Grid -->
+        <div class="store-grid" id="storeGrid">
+            <!-- Filled by JS -->
+        </div>
+    </section>
+
+    <!-- ==================== MY DIGITAL BOOKS PAGE ==================== -->
+    <section class="page" id="page-mydigital">
+        <div class="page-header">
+            <h1 class="page-title">📱 Meus Livros Digitais</h1>
+            <p class="page-subtitle">Acesse seus livros comprados e alugados</p>
+        </div>
+
+        <!-- Digital Tabs -->
+        <div class="digital-tabs">
+            <button class="digital-tab active" data-dtab="purchased" id="tabPurchased">🛍️ Comprados</button>
+            <button class="digital-tab" data-dtab="rented" id="tabRented">⏳ Alugados</button>
+        </div>
+
+        <div class="digital-books-grid" id="digitalBooksGrid">
+            <div class="empty-state">
+                <div class="empty-icon">📱</div>
+                <h3>Nenhum livro digital ainda</h3>
+                <p>Visite a loja para comprar ou alugar livros!</p>
+                <button class="btn btn-primary" onclick="navigateTo('store')">Ir para a Loja</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== BOOK READER MODAL ==================== -->
+    <div class="modal-overlay" id="readerModal">
+        <div class="modal modal-reader">
+            <div class="reader-toolbar">
+                <button class="reader-btn" id="readerClose" title="Fechar">✕</button>
+                <div class="reader-title" id="readerTitle">Título do Livro</div>
+                <div class="reader-controls">
+                    <button class="reader-btn" id="readerFontDown" title="Diminuir fonte">A-</button>
+                    <button class="reader-btn" id="readerFontUp" title="Aumentar fonte">A+</button>
+                    <button class="reader-btn" id="readerThemeToggle" title="Tema">🌙</button>
+                </div>
+            </div>
+            <div class="reader-body" id="readerBody">
+                <!-- Filled by JS -->
+            </div>
+            <div class="reader-footer">
+                <button class="btn btn-secondary" id="readerPrev">← Anterior</button>
+                <span class="reader-page-info" id="readerPageInfo">Página 1 de 1</span>
+                <button class="btn btn-primary" id="readerNext">Próximo →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== BOOK DETAIL MODAL ==================== -->
+    <div class="modal-overlay" id="bookModal">
+        <div class="modal" id="bookModalContent">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== WHAT TO READ MODAL ==================== -->
+    <div class="modal-overlay" id="whatToReadModal">
+        <div class="modal modal-recommendation">
+            <button class="modal-close" id="whatToReadClose">&times;</button>
+            <div class="modal-body" id="whatToReadBody">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="footer" id="mainFooter">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">Book<span class="logo-accent">Verse</span></span>
+            </div>
+            <p class="footer-text">Sua biblioteca pessoal online. Organize, avalie e descubra novos livros.</p>
+            <p class="footer-copy">&copy; 2026 BookVerse. Feito com ❤️ para leitores.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
